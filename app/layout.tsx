@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
+
+import { ClerkProvider } from "@clerk/nextjs";
+import { ModalProvider } from "@/providers/modal-provider";
+
 import "./globals.css";
+import { ToastProvider } from "@/providers/toast-provider";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -9,8 +14,8 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "My App",
-  description: "Template for Next.js 15 with Tailwind v4 and Shadcn UI",
+  title: "Admin Dashboard - Digitalin",
+  description: "Admin dashboard for Digitalin",
 };
 
 export default function RootLayout({
@@ -19,8 +24,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${montserrat.variable} antialiased`}>{children}</body>
-    </html>
+    <ClerkProvider afterSignOutUrl={"/"}>
+      <html lang="en">
+        <body className={`${montserrat.variable} antialiased`}>
+          <ToastProvider />
+          <ModalProvider />
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

@@ -3,6 +3,7 @@ import React from "react";
 import Navlink from "./Navlink";
 import MobileNav from "./MobileNav";
 import { Button } from "../ui/button";
+import { UserButton } from "@clerk/nextjs";
 
 const Header = () => {
   return (
@@ -19,7 +20,8 @@ const Header = () => {
         </div>
 
         {/* Button */}
-        <div className="hidden md:flex">
+        <div className="hidden md:flex md:gap-4">
+          <UserButton />
           <Button>Login</Button>
         </div>
 
