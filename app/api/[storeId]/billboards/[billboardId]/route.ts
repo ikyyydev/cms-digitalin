@@ -31,6 +31,7 @@ export async function PATCH(
 ) {
   try {
     const { userId } = await auth();
+    const { billboardId, storeId } = await params;
     const body = await req.json();
     const { label, imageUrl } = body;
 
@@ -46,13 +47,13 @@ export async function PATCH(
       return new NextResponse("Image URL is required", { status: 400 });
     }
 
-    if (!params.billboardId) {
+    if (!billboardId) {
       return new NextResponse("Billboard id is required", { status: 400 });
     }
 
     const storeByUserId = await prismadb.store.findFirst({
       where: {
-        id: params.storeId,
+        id: storeId,
         userId,
       },
     });
@@ -63,7 +64,7 @@ export async function PATCH(
 
     const billboard = await prismadb.billboard.updateMany({
       where: {
-        id: params.billboardId,
+        id: billboardId,
       },
       data: {
         label,

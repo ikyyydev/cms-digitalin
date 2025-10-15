@@ -24,7 +24,6 @@ import { toast } from "sonner";
 import { HiCheckCircle, HiExclamationCircle } from "react-icons/hi";
 import axios from "axios";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { useOrigin } from "@/hooks/use-origin";
 import { ImageUpload } from "@/components/ui/image-upload";
 
 const formSchema = z.object({
@@ -43,7 +42,6 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
 }) => {
   const params = useParams();
   const router = useRouter();
-  const origin = useOrigin();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -97,7 +95,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
         `/api/${params.storeId}/billboards/${params.billboardId}`
       );
       router.refresh();
-      router.push("/");
+      router.push(`/${params.storeId}/billboards`);
       toast.success("Billboard deleted successfully", {
         icon: <HiCheckCircle size={24} className="text-green-600" />,
         style: { backgroundColor: "#dcfce7", color: "#166534" },
@@ -190,8 +188,6 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
           </Button>
         </form>
       </Form>
-
-      <Separator />
     </>
   );
 };
