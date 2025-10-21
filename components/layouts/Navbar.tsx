@@ -1,9 +1,9 @@
-import React from "react";
+import { auth } from "@clerk/nextjs/server";
+import prismadb from "@/common/libs/prisma";
+import { redirect } from "next/navigation";
+
 import { MainNav } from "@/components/fragments/MainNav";
 import StoreSwitcher from "@/components/fragments/StoreSwitcher";
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
-import prismadb from "@/common/libs/prisma";
 import UserButtonClient from "../ui/user-button-client";
 
 const Navbar = async () => {
