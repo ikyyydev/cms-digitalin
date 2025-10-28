@@ -39,7 +39,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
         {value.map((url) => (
           <div
             key={url}
-            className="relative w-[200px] h-[200px] rounded-md overflow-hidden"
+            className="relative size-[200px] rounded-md overflow-hidden"
           >
             <div className="z-10 absolute top-2 right-2">
               <Button
@@ -51,7 +51,14 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
                 <Trash className="h-4 w-4" />
               </Button>
             </div>
-            <Image fill src={url} alt="Image" className="object-cover" />
+            <Image
+              fill
+              sizes="200px"
+              src={url}
+              alt="Image"
+              className="object-cover"
+              priority
+            />
           </div>
         ))}
       </div>

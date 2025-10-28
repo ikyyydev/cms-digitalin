@@ -1,13 +1,18 @@
 "use client";
 
-import { UserButton } from "@clerk/nextjs";
-import React from "react";
+import { SignedIn, UserButton } from "@clerk/nextjs";
+
+import { RenderMounted } from "../layouts/client-render";
 
 const UserButtonClient = () => {
   return (
-    <div className="ml-auto flex items-center space-x-4">
-      <UserButton />
-    </div>
+    <RenderMounted>
+      <div className="ml-auto flex items-center space-x-4">
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+      </div>
+    </RenderMounted>
   );
 };
 

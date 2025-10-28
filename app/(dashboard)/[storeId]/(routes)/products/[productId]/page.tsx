@@ -32,11 +32,18 @@ const ProductPage = async ({
     },
   });
 
+  const formattedProduct = product
+    ? {
+        ...product,
+        price: product.price.toNumber(),
+      }
+    : null;
+
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8">
         <ProductForm
-          initialData={product}
+          initialData={formattedProduct}
           categories={categories}
           sizes={sizes}
           colors={colors}

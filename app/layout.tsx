@@ -6,6 +6,7 @@ import { ModalProvider } from "@/providers/modal-provider";
 
 import "./globals.css";
 import { ToastProvider } from "@/providers/toast-provider";
+import { RenderMounted } from "@/components/layouts/client-render";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -24,14 +25,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider afterSignOutUrl={"/"}>
-      <html lang="en">
+    <html lang="en">
+      <ClerkProvider>
         <body className={`${montserrat.variable} antialiased`}>
           <ToastProvider />
           <ModalProvider />
           {children}
         </body>
-      </html>
-    </ClerkProvider>
+      </ClerkProvider>
+    </html>
   );
 }

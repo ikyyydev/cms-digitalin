@@ -10,3 +10,9 @@ export interface SocialFooterProps {
   href: string;
   icon: JSX.Element;
 }
+
+export interface MidtransProps {
+  name?: string;
+  quantity: number;
+  price: number;
+}
