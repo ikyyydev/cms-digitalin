@@ -1,6 +1,5 @@
 import { navlinks } from "@/common/constants";
 import Link from "next/link";
-import React from "react";
 
 const Navlink = () => {
   return (

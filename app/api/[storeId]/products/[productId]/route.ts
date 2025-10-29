@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import prismadb from "@/common/libs/prisma";
 
 export async function GET(
-  req: Request,
+  _req: Request,
   { params }: { params: { productId: string } }
 ) {
   try {
@@ -133,7 +133,7 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  req: Request,
+  _req: Request,
   { params }: { params: { storeId: string; productId: string } }
 ) {
   try {

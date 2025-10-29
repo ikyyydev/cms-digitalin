@@ -1,7 +1,8 @@
 import prismadb from "@/common/libs/prisma";
-import Navbar from "@/components/layouts/Navbar";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+
+import Navbar from "@/components/layouts/Navbar";
 
 export default async function DashboardLayout({
   children,
@@ -19,7 +20,6 @@ export default async function DashboardLayout({
 
   const store = await prismadb.store.findFirst({
     where: {
-      // id: params.storeId,
       id: storeId,
       userId,
     },

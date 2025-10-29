@@ -6,7 +6,7 @@ import { ModalProvider } from "@/providers/modal-provider";
 
 import "./globals.css";
 import { ToastProvider } from "@/providers/toast-provider";
-import { RenderMounted } from "@/components/layouts/client-render";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -25,14 +25,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <ClerkProvider>
+    <ClerkProvider>
+      <html lang="en">
         <body className={`${montserrat.variable} antialiased`}>
-          <ToastProvider />
-          <ModalProvider />
-          {children}
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+            <ToastProvider />
+            <ModalProvider />
+            {children}
+          </ThemeProvider>
         </body>
-      </ClerkProvider>
-    </html>
+      </html>
+    </ClerkProvider>
   );
 }

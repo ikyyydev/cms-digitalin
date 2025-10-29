@@ -1,4 +1,3 @@
-import React from "react";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { CiMenuFries } from "react-icons/ci";
 import Link from "next/link";

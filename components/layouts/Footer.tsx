@@ -1,6 +1,5 @@
 import { socialsfooter } from "@/common/constants";
 import Link from "next/link";
-import React from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 const Footer = () => {

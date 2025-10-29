@@ -6,6 +6,7 @@ import { useParams, usePathname } from "next/navigation";
 
 export function MainNav({
   className,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
 }: React.HtmlHTMLAttributes<HTMLElement>) {
   const pathname = usePathname();

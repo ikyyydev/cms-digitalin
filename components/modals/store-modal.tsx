@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useStoreModal } from "@/hooks/use-store-modal";
+import { HiExclamationCircle, HiCheckCircle } from "react-icons/hi";
 import axios from "axios";
 
 import { Modal } from "@/components/fragments/Modal";
@@ -19,8 +20,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-
-import { HiExclamationCircle, HiCheckCircle } from "react-icons/hi";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name must be at least 1 character" }),

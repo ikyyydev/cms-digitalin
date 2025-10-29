@@ -1,5 +1,4 @@
 import Link from "next/link";
-import React from "react";
 import Navlink from "./Navlink";
 import MobileNav from "./MobileNav";
 import { Button } from "../ui/button";

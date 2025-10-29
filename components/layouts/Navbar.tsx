@@ -1,4 +1,3 @@
-import { SignedIn, UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import prismadb from "@/common/libs/prisma";
 import { redirect } from "next/navigation";
@@ -28,11 +27,6 @@ const Navbar = async () => {
         <MainNav />
 
         <UserButtonClient />
-        {/* <div className="ml-auto flex items-center space-x-4">
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-        </div> */}
       </div>
     </div>
   );
