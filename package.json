@@ -1,6 +1,6 @@
 {
-  "name": "nexttailwind-shadcn",
-  "version": "1.0.0",
+  "name": "digitalin-admin",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -10,6 +10,10 @@
     "postinstall": "prisma generate"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ikyyydev/cms-digitalin"
+  },
   "dependencies": {
     "@clerk/nextjs": "^6.33.3",
     "@hookform/resolvers": "^5.2.2",
