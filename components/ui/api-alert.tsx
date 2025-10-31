@@ -40,20 +40,25 @@ export const ApiAlert: React.FC<APiAlertProps> = ({
     });
   };
   return (
-    <Alert>
-      <Server className="h-4 w-4" />
+    <Alert className="overflow-x-hidden">
       <AlertTitle className="flex items-center gap-x-2">
+        <Server className="h-4 w-4" />
         {title}
 
         <Badge variant={variantMap[variant]}>{textMap[variant]}</Badge>
-      </AlertTitle>
-      <AlertDescription className="mt-4 flex items-center justify-between">
-        <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] text-sm font-semibold font-mono">
-          {description}
-        </code>
-        <Button variant={"outline"} size={"icon"} onClick={onCopy}>
+        <Button
+          variant={"outline"}
+          size={"icon"}
+          onClick={onCopy}
+          className="ml-auto"
+        >
           <Copy className="h-4 w-4" />
         </Button>
+      </AlertTitle>
+      <AlertDescription className="mt-4 flex items-center justify-between overflow-hidden">
+        <code className="text-nowrap overflow-x-scroll rounded bg-muted px-[0.3rem] py-[0.2rem] text-sm font-semibold font-mono scrollbar-hide">
+          {description}
+        </code>
       </AlertDescription>
     </Alert>
   );

@@ -31,6 +31,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import BackButton from "@/components/fragments/BackButton";
 
 const formSchema = z.object({
   name: z.string().min(1, "the name cannot be empty"),
@@ -132,6 +133,8 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
         loading={loading}
       />
 
+      <BackButton />
+
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
@@ -153,7 +156,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <FormField
               control={form.control}
               name="name"
@@ -183,7 +186,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                     value={field.value}
                     defaultValue={field.value}
                   >
-                    <FormControl>
+                    <FormControl className="w-full">
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}

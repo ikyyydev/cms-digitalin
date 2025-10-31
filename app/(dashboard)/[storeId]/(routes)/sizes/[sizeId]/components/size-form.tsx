@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import { HiCheckCircle, HiExclamationCircle } from "react-icons/hi";
 import axios from "axios";
 import { AlertModal } from "@/components/modals/alert-modal";
+import BackButton from "@/components/fragments/BackButton";
 
 const formSchema = z.object({
   name: z.string().min(1, "the name cannot be empty"),
@@ -116,6 +117,8 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
         loading={loading}
       />
 
+      <BackButton />
+
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
@@ -137,7 +140,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <FormField
               control={form.control}
               name="name"

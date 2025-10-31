@@ -25,16 +25,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={`${montserrat.variable} antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${montserrat.variable} antialiased`}>
+        <ClerkProvider>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
             <ToastProvider />
             <ModalProvider />
             {children}
           </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }

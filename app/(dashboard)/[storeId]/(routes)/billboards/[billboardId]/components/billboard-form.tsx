@@ -25,6 +25,7 @@ import { HiCheckCircle, HiExclamationCircle } from "react-icons/hi";
 import axios from "axios";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { ImageUpload } from "@/components/ui/image-upload";
+import BackButton from "@/components/fragments/BackButton";
 
 const formSchema = z.object({
   label: z.string().min(1, "the label cannot be empty"),
@@ -124,6 +125,8 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
         loading={loading}
       />
 
+      <BackButton />
+
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
@@ -163,7 +166,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
               </FormItem>
             )}
           />
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <FormField
               control={form.control}
               name="label"

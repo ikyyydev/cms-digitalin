@@ -34,6 +34,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import BackButton from "@/components/fragments/BackButton";
 
 const formSchema = z.object({
   name: z.string().min(1, "the label cannot be empty"),
@@ -156,6 +157,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         loading={loading}
       />
 
+      <BackButton />
+
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
@@ -205,7 +208,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               </FormItem>
             )}
           />
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* TODO: Add name */}
             <FormField
               control={form.control}
@@ -246,7 +249,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             />
           </div>
 
-          <div className="flex flex-wrap gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* TODO: Add category selection */}
             <FormField
               control={form.control}
@@ -260,7 +263,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     value={field.value}
                     defaultValue={field.value}
                   >
-                    <FormControl>
+                    <FormControl className="w-full">
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}
@@ -294,7 +297,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     value={field.value}
                     defaultValue={field.value}
                   >
-                    <FormControl>
+                    <FormControl className="w-full">
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}
@@ -328,7 +331,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     value={field.value}
                     defaultValue={field.value}
                   >
-                    <FormControl>
+                    <FormControl className="w-full">
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}

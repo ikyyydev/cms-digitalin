@@ -1,16 +1,17 @@
 "use client";
 
-import { cn } from "@/common/libs/utils";
-import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
+import Link from "next/link";
+import { cn } from "@/common/libs/utils";
 
-export function MainNav({
-  className,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  ...props
-}: React.HtmlHTMLAttributes<HTMLElement>) {
+const MobileMainNav: React.FC = () => {
   const pathname = usePathname();
   const params = useParams();
+
+  if (!params?.storeId) {
+    return null;
+  }
 
   const routes = [
     {
@@ -55,24 +56,26 @@ export function MainNav({
     },
   ];
   return (
-    <nav
-      className={cn(
-        "hidden lg:flex items-center space-x-4 lg:space-x-6",
-        className
-      )}
-    >
-      {routes.map((route) => (
-        <Link
-          key={route.href}
-          href={route.href}
-          className={cn(
-            "text-sm font-medium transition-colors hover:text-primary",
-            route.active ? "text-primary dark:white" : "text-muted-foreground"
-          )}
-        >
-          {route.label}
-        </Link>
+    <SidebarMenu>
+      {routes.map((item) => (
+        <SidebarMenuItem key={item.label}>
+          <SidebarMenuButton asChild>
+            <Link
+              href={item.href}
+              className={cn(
+                "text-sm font-medium transition-colors",
+                item.active
+                  ? "text-primary dark:text-primary"
+                  : "text-muted-foreground"
+              )}
+            >
+              {item.label}
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
       ))}
-    </nav>
+    </SidebarMenu>
   );
-}
+};
+
+export default MobileMainNav;
