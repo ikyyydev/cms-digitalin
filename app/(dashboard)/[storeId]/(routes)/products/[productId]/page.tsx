@@ -14,6 +14,7 @@ const ProductPage = async ({
     include: {
       images: true,
       storages: true,
+      colors: true,
     },
   });
 

@@ -52,12 +52,19 @@ import {
 } from "@/components/ui/multi-select";
 
 const formSchema = z.object({
-  name: z.string().min(1, "the label cannot be empty"),
+  name: z.string().min(1, "label cannot be empty"),
   images: z.object({ url: z.string() }).array(),
-  price: z.coerce.number().min(1, "the price cannot be empty"),
-  categoryId: z.string().min(1, "the category cannot be empty"),
-  sizeId: z.string().min(1, "the size cannot be empty"),
-  colorId: z.string().min(1, "the color cannot be empty"),
+  price: z.coerce.number().min(1, "price cannot be empty"),
+  categoryId: z.string().min(1, "category cannot be empty"),
+  sizeId: z
+    .string()
+    .nullable()
+    .refine((val) => val === null || val.length >= 1, {
+      message: "size cannot be empty",
+    })
+    .transform((val) => (val === "" || val === null ? undefined : val))
+    .optional(),
+  colors: z.array(z.string()).min(1, "Please select at least one color"),
   storages: z.array(z.string()).min(1, "Please select at least one storage"),
   isFeatured: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional(),
@@ -71,11 +78,12 @@ interface ProductFormProps {
         price: number;
         images: Image[];
         storages: Storage[];
+        colors: Color[];
       })
     | null;
   categories: Category[];
   colors: Color[];
-  sizes: Size[];
+  sizes?: Size[];
   storages: Storage[];
 }
 
@@ -106,6 +114,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           ...initialData,
           price: parseFloat(String(initialData?.price)),
           storages: initialData.storages?.map((storage) => storage.id) || [],
+          colors: initialData.colors?.map((color) => color.id) || [],
+          sizeId: initialData.sizeId || "",
         }
       : {
           name: "",
@@ -113,7 +123,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           price: 0,
           categoryId: "",
           sizeId: "",
-          colorId: "",
+          colors: [],
           storages: [],
           isFeatured: false,
           isArchived: false,
@@ -132,11 +142,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         await axios.post(`/api/${params.storeId}/products`, data);
       }
       router.refresh();
-      router.push(`/${params.storeId}/products`);
       toast.success(toastMessage, {
         icon: <HiCheckCircle size={24} className="text-green-600" />,
         style: { backgroundColor: "#dcfce7", color: "#166534" },
       });
+      router.push(`/${params.storeId}/products`);
     } catch {
       toast.error("Something went wrong", {
         style: { backgroundColor: "#fee2e2", color: "#7f1d1d" },
@@ -152,11 +162,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       setLoading(true);
       await axios.delete(`/api/${params.storeId}/products/${params.productId}`);
       router.refresh();
-      router.push(`/${params.storeId}/products`);
       toast.success("Product deleted successfully", {
         icon: <HiCheckCircle size={24} className="text-green-600" />,
         style: { backgroundColor: "#dcfce7", color: "#166534" },
       });
+      router.push(`/${params.storeId}/products`);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Something went wrong", {
@@ -349,24 +359,22 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <Select
                     disabled={loading}
                     onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
+                    value={field.value || ""}
                   >
                     <FormControl className="w-full">
                       <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a size"
-                        />
+                        <SelectValue placeholder="Select a size" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
-                      {sizes.map((size) => (
-                        <SelectItem key={size.id} value={size.id}>
-                          {size.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
+                    {sizes && (
+                      <SelectContent>
+                        {sizes.map((size) => (
+                          <SelectItem key={size.id} value={size.id}>
+                            {size.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    )}
                   </Select>
                   <FormMessage />
                 </FormItem>
@@ -376,32 +384,29 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             {/* TODO: Add color selection */}
             <FormField
               control={form.control}
-              name="colorId"
+              name="colors"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Color</FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl className="w-full">
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a color"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {colors.map((color) => (
-                        <SelectItem key={color.id} value={color.id}>
-                          {color.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <FormControl>
+                    <MultiSelect
+                      values={field.value}
+                      onValuesChange={field.onChange}
+                    >
+                      <MultiSelectTrigger className="w-full">
+                        <MultiSelectValue placeholder="Select color" />
+                      </MultiSelectTrigger>
+                      <MultiSelectContent>
+                        <MultiSelectGroup>
+                          {colors.map((color) => (
+                            <MultiSelectItem key={color.id} value={color.id}>
+                              {color.name}
+                            </MultiSelectItem>
+                          ))}
+                        </MultiSelectGroup>
+                      </MultiSelectContent>
+                    </MultiSelect>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

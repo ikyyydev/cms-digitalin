@@ -17,7 +17,8 @@ export async function POST(
       images,
       categoryId,
       sizeId,
-      colorId,
+      colors,
+      storages,
       isFeatured,
       isArchived,
     } = body;
@@ -42,12 +43,12 @@ export async function POST(
       return new NextResponse("Category id is Required", { status: 400 });
     }
 
-    if (!sizeId) {
-      return new NextResponse("Size id is Required", { status: 400 });
+    if (!colors || !colors.length) {
+      return new NextResponse("Color id is Required", { status: 400 });
     }
 
-    if (!colorId) {
-      return new NextResponse("Color id is Required", { status: 400 });
+    if (!storages || !storages.length) {
+      return new NextResponse("Storages are required", { status: 400 });
     }
 
     if (!storeId) {
@@ -71,7 +72,6 @@ export async function POST(
         price,
         categoryId,
         sizeId,
-        colorId,
         isFeatured,
         isArchived,
         storeId,
@@ -79,6 +79,14 @@ export async function POST(
           createMany: {
             data: [...images.map((image: { url: string }) => image)],
           },
+        },
+        storages: {
+          connect: storages.map((storageId: string) => ({
+            id: storageId,
+          })),
+        },
+        colors: {
+          connect: colors.map((colorId: string) => ({ id: colorId })),
         },
       },
     });
@@ -97,7 +105,7 @@ export async function GET(
   try {
     const { searchParams } = new URL(req.url);
     const categoryId = searchParams.get("categoryId") || undefined;
-    const colorId = searchParams.get("colorId") || undefined;
+    // const colors = searchParams.get("colorId") || undefined;
     const sizeId = searchParams.get("sizeId") || undefined;
     const isFeatured = searchParams.get("isFeatured");
 
@@ -111,8 +119,8 @@ export async function GET(
       where: {
         storeId: storeId,
         categoryId,
-        colorId,
         sizeId,
+        // colors,
         isFeatured: isFeatured ? true : undefined,
         isArchived: false,
       },
@@ -120,7 +128,8 @@ export async function GET(
         images: true,
         category: true,
         size: true,
-        color: true,
+        colors: true,
+        storages: true,
       },
       orderBy: {
         createdAt: "desc",

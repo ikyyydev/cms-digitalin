@@ -76,7 +76,7 @@ model Color {
   store     Store     @relation("StoreToColor", fields: [storeId], references: [id])
   name      String
   value     String
-  products  Product[]
+  products  Product[] @relation("ProductToColors")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
@@ -102,10 +102,9 @@ model Product {
   price      Decimal
   isFeatured Boolean     @default(false)
   isArchived Boolean     @default(false)
-  sizeId     String
-  size       Size        @relation(fields: [sizeId], references: [id])
-  colorId    String
-  color      Color       @relation(fields: [colorId], references: [id])
+  sizeId     String?
+  size       Size?        @relation(fields: [sizeId], references: [id])
+  colors      Color[]       @relation("ProductToColors")
   images     Image[]
   orderItems OrderItem[]
   storages Storage[] @relation("ProductToStorages")
@@ -115,7 +114,6 @@ model Product {
   @@index([storeId])
   @@index([categoryId])
   @@index([sizeId])
-  @@index([colorId])
 }
 
 model Image {

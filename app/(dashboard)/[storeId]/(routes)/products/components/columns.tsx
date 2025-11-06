@@ -2,15 +2,15 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
-import { Storage } from "@/app/generated/prisma";
+import { Color, Storage } from "@/app/generated/prisma";
 
 export type ProductColumn = {
   id: string;
   name: string;
   price: string;
   category: string;
-  size: string;
-  color: string;
+  size?: string;
+  colors: Color[];
   storages: Storage[];
   isFeatured: boolean;
   isArchived: boolean;
@@ -39,21 +39,10 @@ export const columns: ColumnDef<ProductColumn>[] = [
     header: "Category",
   },
   {
-    accessorKey: "size",
-    header: "Size",
-  },
-  {
     accessorKey: "color",
     header: "Color",
-    cell: ({ row }) => (
-      <div className="flex items-center gap-x-2">
-        {row.original.color}
-        <div
-          className="w-6 h-6 rounded-full"
-          style={{ backgroundColor: row.original.color }}
-        />
-      </div>
-    ),
+    cell: ({ row }) =>
+      row.original.colors.map((color) => color.name).join(", "),
   },
   {
     accessorKey: "storages",

@@ -21,7 +21,7 @@ export async function GET(
         images: true,
         category: true,
         size: true,
-        color: true,
+        // color: true,
       },
     });
 
@@ -40,14 +40,14 @@ export async function PATCH(
     const { userId } = await auth();
     const { productId, storeId } = await params;
     const body = await req.json();
-    console.log("BODY PATCH:", body);
+    // console.log("BODY PATCH:", body);
     const {
       name,
       price,
       images,
       categoryId,
       sizeId,
-      colorId,
+      colors,
       storages,
       isFeatured,
       isArchived,
@@ -77,7 +77,7 @@ export async function PATCH(
       return new NextResponse("Size id is Required", { status: 400 });
     }
 
-    if (!colorId) {
+    if (!colors || !colors.length) {
       return new NextResponse("Color id is Required", { status: 400 });
     }
 
@@ -109,15 +109,17 @@ export async function PATCH(
         price,
         categoryId,
         sizeId,
-        colorId,
         isFeatured,
         isArchived,
         images: {
           deleteMany: {},
         },
-        storages: {
-          set: [],
-        },
+        // storages: {
+        //   set: [],
+        // },
+        // colors: {
+        //   set: [],
+        // },
       },
     });
 
@@ -134,8 +136,11 @@ export async function PATCH(
         storages: {
           connect: storages.map((storageId: string) => ({ id: storageId })),
         },
+        colors: {
+          connect: colors.map((colorId: string) => ({ id: colorId })),
+        },
       },
-      include: { storages: true },
+      include: { storages: true, colors: true },
     });
 
     return NextResponse.json(product);
