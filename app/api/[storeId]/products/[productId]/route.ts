@@ -40,6 +40,7 @@ export async function PATCH(
     const { userId } = await auth();
     const { productId, storeId } = await params;
     const body = await req.json();
+    console.log("BODY PATCH:", body);
     const {
       name,
       price,
@@ -47,6 +48,7 @@ export async function PATCH(
       categoryId,
       sizeId,
       colorId,
+      storages,
       isFeatured,
       isArchived,
     } = body;
@@ -79,6 +81,10 @@ export async function PATCH(
       return new NextResponse("Color id is Required", { status: 400 });
     }
 
+    if (!storages || !storages.length) {
+      return new NextResponse("Storages are required", { status: 400 });
+    }
+
     if (!productId) {
       return new NextResponse("Product id is required", { status: 400 });
     }
@@ -109,6 +115,9 @@ export async function PATCH(
         images: {
           deleteMany: {},
         },
+        storages: {
+          set: [],
+        },
       },
     });
 
@@ -122,7 +131,11 @@ export async function PATCH(
             data: [...images.map((image: { url: string }) => image)],
           },
         },
+        storages: {
+          connect: storages.map((storageId: string) => ({ id: storageId })),
+        },
       },
+      include: { storages: true },
     });
 
     return NextResponse.json(product);

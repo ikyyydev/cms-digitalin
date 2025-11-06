@@ -7,7 +7,14 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
-import { Category, Color, Image, Product, Size } from "@/app/generated/prisma";
+import {
+  Category,
+  Color,
+  Image,
+  Product,
+  Size,
+  Storage,
+} from "@/app/generated/prisma";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
@@ -35,6 +42,14 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import BackButton from "@/components/fragments/BackButton";
+import {
+  MultiSelect,
+  MultiSelectContent,
+  MultiSelectGroup,
+  MultiSelectItem,
+  MultiSelectTrigger,
+  MultiSelectValue,
+} from "@/components/ui/multi-select";
 
 const formSchema = z.object({
   name: z.string().min(1, "the label cannot be empty"),
@@ -43,6 +58,7 @@ const formSchema = z.object({
   categoryId: z.string().min(1, "the category cannot be empty"),
   sizeId: z.string().min(1, "the size cannot be empty"),
   colorId: z.string().min(1, "the color cannot be empty"),
+  storages: z.array(z.string()).min(1, "Please select at least one storage"),
   isFeatured: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional(),
 });
@@ -54,11 +70,13 @@ interface ProductFormProps {
     | (Omit<Product, "price"> & {
         price: number;
         images: Image[];
+        storages: Storage[];
       })
     | null;
   categories: Category[];
   colors: Color[];
   sizes: Size[];
+  storages: Storage[];
 }
 
 export const ProductForm: React.FC<ProductFormProps> = ({
@@ -66,6 +84,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   categories,
   colors,
   sizes,
+  storages,
 }) => {
   const params = useParams();
   const router = useRouter();
@@ -86,6 +105,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       ? {
           ...initialData,
           price: parseFloat(String(initialData?.price)),
+          storages: initialData.storages?.map((storage) => storage.id) || [],
         }
       : {
           name: "",
@@ -94,6 +114,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           categoryId: "",
           sizeId: "",
           colorId: "",
+          storages: [],
           isFeatured: false,
           isArchived: false,
         },
@@ -242,6 +263,40 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       placeholder="Product price"
                       {...(field as unknown as React.InputHTMLAttributes<HTMLInputElement>)}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* TODO: Add storages */}
+            <FormField
+              control={form.control}
+              name="storages"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Storage</FormLabel>
+                  <FormControl>
+                    <MultiSelect
+                      values={field.value}
+                      onValuesChange={field.onChange}
+                    >
+                      <MultiSelectTrigger className="w-full">
+                        <MultiSelectValue placeholder="Select storages" />
+                      </MultiSelectTrigger>
+                      <MultiSelectContent>
+                        <MultiSelectGroup>
+                          {storages.map((storage) => (
+                            <MultiSelectItem
+                              key={storage.id}
+                              value={storage.id}
+                            >
+                              {storage.value}
+                            </MultiSelectItem>
+                          ))}
+                        </MultiSelectGroup>
+                      </MultiSelectContent>
+                    </MultiSelect>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

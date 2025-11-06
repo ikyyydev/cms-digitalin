@@ -13,6 +13,7 @@ const ProductPage = async ({
     },
     include: {
       images: true,
+      storages: true,
     },
   });
 
@@ -31,11 +32,17 @@ const ProductPage = async ({
       storeId,
     },
   });
+  const storages = await prismadb.storage.findMany({
+    where: {
+      storeId,
+    },
+  });
 
   const formattedProduct = product
     ? {
         ...product,
         price: product.price.toNumber(),
+        storages: product.storages,
       }
     : null;
 
@@ -47,6 +54,7 @@ const ProductPage = async ({
           categories={categories}
           sizes={sizes}
           colors={colors}
+          storages={storages}
         />
       </div>
     </div>

@@ -17,6 +17,7 @@ const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
       category: true,
       size: true,
       color: true,
+      storages: true,
     },
     orderBy: {
       createdAt: "desc",
@@ -32,6 +33,7 @@ const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
     category: item.category.name,
     size: item.size.name,
     color: item.color.name,
+    storages: item.storages,
     createdAt: format(item.createdAt, "yyyy-MM-dd", {
       useAdditionalDayOfYearTokens: true,
     }),

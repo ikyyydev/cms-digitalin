@@ -24,6 +24,7 @@ model Store {
   colors     Color[]     @relation("StoreToColor")
   products   Product[]   @relation("StoreToProduct")
   orders     Order[]     @relation("StoreToOrder")
+  storage Storage[] @relation("StoreToStorage")
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 }
@@ -82,6 +83,15 @@ model Color {
   @@index([storeId])
 }
 
+model Storage {
+  id String @id @default(uuid())
+  storeId String
+  store Store @relation("StoreToStorage", fields: [storeId], references: [id])
+  value String
+  products Product[] @relation("ProductToStorages")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 model Product {
   id         String      @id @default(uuid())
   storeId    String
@@ -98,6 +108,7 @@ model Product {
   color      Color       @relation(fields: [colorId], references: [id])
   images     Image[]
   orderItems OrderItem[]
+  storages Storage[] @relation("ProductToStorages")
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 

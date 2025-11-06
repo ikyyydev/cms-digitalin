@@ -2,6 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
+import { Storage } from "@/app/generated/prisma";
 
 export type ProductColumn = {
   id: string;
@@ -10,6 +11,7 @@ export type ProductColumn = {
   category: string;
   size: string;
   color: string;
+  storages: Storage[];
   isFeatured: boolean;
   isArchived: boolean;
   createdAt: string;
@@ -54,8 +56,10 @@ export const columns: ColumnDef<ProductColumn>[] = [
     ),
   },
   {
-    accessorKey: "createdAt",
-    header: "Date",
+    accessorKey: "storages",
+    header: "Storage",
+    cell: ({ row }) =>
+      row.original.storages.map((storage) => storage.value).join(", "),
   },
   {
     id: "actions",
