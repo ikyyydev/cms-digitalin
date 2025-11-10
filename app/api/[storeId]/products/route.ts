@@ -105,7 +105,8 @@ export async function GET(
   try {
     const { searchParams } = new URL(req.url);
     const categoryId = searchParams.get("categoryId") || undefined;
-    // const colorId = searchParams.get("colorId") || undefined;
+    const colorId = searchParams.get("colorId") || undefined;
+    const storageId = searchParams.get("storageId") || undefined;
     const sizeId = searchParams.get("sizeId") || undefined;
     const isFeatured = searchParams.get("isFeatured");
 
@@ -120,9 +121,22 @@ export async function GET(
         storeId: storeId,
         categoryId,
         sizeId,
-        // colors,
         isFeatured: isFeatured ? true : undefined,
         isArchived: false,
+        ...(colorId && {
+          colors: {
+            some: {
+              id: colorId,
+            },
+          },
+        }),
+        ...(storageId && {
+          storages: {
+            some: {
+              id: storageId,
+            },
+          },
+        }),
       },
       include: {
         images: true,
