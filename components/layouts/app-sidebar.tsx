@@ -41,7 +41,7 @@ export async function AppSidebar() {
             className="w-full text-muted-foreground"
           />
 
-          <SidebarGroupContent className="md:hidden">
+          <SidebarGroupContent className="block lg:hidden">
             <MobileMainNav />
           </SidebarGroupContent>
         </SidebarGroup>

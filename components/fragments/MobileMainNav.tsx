@@ -40,6 +40,11 @@ const MobileMainNav: React.FC = () => {
       active: pathname === `/${params.storeId}/colors`,
     },
     {
+      href: `/${params.storeId}/storages`,
+      label: "Storage",
+      active: pathname === `/${params.storeId}/storages`,
+    },
+    {
       href: `/${params.storeId}/products`,
       label: "Products",
       active: pathname === `/${params.storeId}/products`,
