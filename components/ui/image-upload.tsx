@@ -34,34 +34,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
   }
 
   return (
-    <div>
-      <div className="mb-4 flex items-center gap-4">
-        {value.map((url) => (
-          <div
-            key={url}
-            className="relative size-[200px] rounded-md overflow-hidden"
-          >
-            <div className="z-10 absolute top-2 right-2">
-              <Button
-                type="button"
-                onClick={() => onRemove(url)}
-                variant={"destructive"}
-                size={"icon"}
-              >
-                <Trash className="h-4 w-4" />
-              </Button>
-            </div>
-            <Image
-              fill
-              sizes="200px"
-              src={url}
-              alt="Image"
-              className="object-cover"
-              priority
-            />
-          </div>
-        ))}
-      </div>
+    <>
       <CldUploadWidget onSuccess={onUpload} uploadPreset="lhqfreqh">
         {({ open }) => {
           const onClick = () => {
@@ -74,6 +47,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
               type="button"
               variant={"secondary"}
               onClick={onClick}
+              className="w-fit"
             >
               <ImagePlus className="w-4 h-4 mr-2" />
               Upload an Image
@@ -81,6 +55,35 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
           );
         }}
       </CldUploadWidget>
-    </div>
+      <div className="overflow-x-scroll scroll-smooth snap-x snap-mandatory">
+        <div className="my-4 flex items-center gap-4">
+          {value.map((url) => (
+            <div
+              key={url}
+              className="relative h-[200px] w-auto aspect-[3/4] rounded-md overflow-hidden flex-shrink-0"
+            >
+              <div className="z-10 absolute top-2 right-2">
+                <Button
+                  type="button"
+                  onClick={() => onRemove(url)}
+                  variant={"destructive"}
+                  size={"icon"}
+                >
+                  <Trash className="h-4 w-4" />
+                </Button>
+              </div>
+              <Image
+                fill
+                sizes="200px"
+                src={url}
+                alt="Image"
+                className="object-cover"
+                priority
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 };
