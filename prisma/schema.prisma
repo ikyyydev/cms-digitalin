@@ -24,7 +24,7 @@ model Store {
   colors     Color[]     @relation("StoreToColor")
   products   Product[]   @relation("StoreToProduct")
   orders     Order[]     @relation("StoreToOrder")
-  storage Storage[] @relation("StoreToStorage")
+  storage    Storage[]   @relation("StoreToStorage")
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 }
@@ -84,14 +84,15 @@ model Color {
 }
 
 model Storage {
-  id String @id @default(uuid())
-  storeId String
-  store Store @relation("StoreToStorage", fields: [storeId], references: [id])
-  value String
-  products Product[] @relation("ProductToStorages")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String    @id @default(uuid())
+  storeId   String
+  store     Store     @relation("StoreToStorage", fields: [storeId], references: [id])
+  value     String
+  products  Product[] @relation("ProductToStorages")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
+
 model Product {
   id         String      @id @default(uuid())
   storeId    String
@@ -103,11 +104,11 @@ model Product {
   isFeatured Boolean     @default(false)
   isArchived Boolean     @default(false)
   sizeId     String?
-  size       Size?        @relation(fields: [sizeId], references: [id])
-  colors      Color[]       @relation("ProductToColors")
+  size       Size?       @relation(fields: [sizeId], references: [id])
+  colors     Color[]     @relation("ProductToColors")
   images     Image[]
   orderItems OrderItem[]
-  storages Storage[] @relation("ProductToStorages")
+  storages   Storage[]   @relation("ProductToStorages")
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 
